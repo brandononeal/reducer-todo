@@ -2,7 +2,7 @@ import React, { useState, useReducer } from "react";
 import { reducer, initialState } from "../reducers/todoReducer";
 
 export default function Todo() {
-  const [todos, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [newTodo, setNewTodo] = useState("");
 
   const handleChanges = (e) => {
@@ -16,7 +16,7 @@ export default function Todo() {
 
   return (
     <div>
-      {todos.map((todo) => {
+      {state.todos.map((todo) => {
         return (
           <p
             className={todo.completed ? "completed" : "not-complete"}
@@ -48,6 +48,7 @@ export default function Todo() {
         <button
           onClick={() => {
             dispatch({ type: "COMPLETE_TODOS" });
+            console.log(state);
           }}
         >
           Clear Completed
