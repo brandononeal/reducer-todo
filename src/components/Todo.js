@@ -3,7 +3,6 @@ import { reducer, initialState } from "../reducers/todoReducer";
 
 export default function Todo() {
   const [todos, dispatch] = useReducer(reducer, initialState);
-
   const [newTodo, setNewTodo] = useState("");
 
   const handleChanges = (e) => {
@@ -12,12 +11,22 @@ export default function Todo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setNewTodo("");
   };
 
   return (
     <div>
       {todos.map((todo) => {
-        return <p>{todo.item}</p>;
+        return (
+          <p
+            className={todo.completed ? "completed" : "not-complete"}
+            onClick={() => {
+              dispatch({ type: "TOGGLE_TODOS", payload: todo.id });
+            }}
+          >
+            {todo.item}
+          </p>
+        );
       })}
 
       <form onSubmit={handleSubmit}>
@@ -27,6 +36,8 @@ export default function Todo() {
           value={newTodo}
           onChange={handleChanges}
         />
+        <br />
+
         <button
           onClick={() => {
             dispatch({ type: "ADD_TODOS", payload: newTodo });
@@ -34,13 +45,13 @@ export default function Todo() {
         >
           Submit
         </button>
-        {/* <button
+        <button
           onClick={() => {
-            dispatch({ type: "CLEAR_TODOS", payload:  });
+            dispatch({ type: "COMPLETE_TODOS" });
           }}
         >
           Clear Completed
-        </button> */}
+        </button>
       </form>
     </div>
   );
